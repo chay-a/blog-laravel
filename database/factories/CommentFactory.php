@@ -18,33 +18,20 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
-        $random = rand(0,1);
+        $comment = [
+            'content' => fake()->text(2000),
+            'article_id' => Article::inRandomOrder()->first(),
+        ];
 
-        $userId = null;
-        $pseudo = null;
-        $email = null;
 
-        if($random<0.5) {
-            $userId = User::inRandomOrder()->value('id');
+        if (rand(0, 1) < 0.5) {
+            $comment['user_id'] = User::inRandomOrder()->first();
         } else {
-            $pseudo = $this->getUsername();
-            $email = $this->getEmail();
+            $comment['pseudo'] = fake()->userName();
+            $email['email'] = fake()->email();
         }
 
-        return [
-            'content' => fake()->text(2000),
-            'user_id' => $userId,
-            'pseudo' => $pseudo,
-            'email' => $email,
-            'article_id' => Article::inRandomOrder()->value('id')
-        ];
+        return $comment;
     }
 
-    public function getUsername() {
-        return fake()->userName();
-    }
-
-    public function getEmail() {
-        return fake()->email();
-    }
 }

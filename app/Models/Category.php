@@ -16,4 +16,12 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+            /**
+     * Get the articles for the category.
+     */
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
 }

@@ -24,4 +24,12 @@ class Article extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+        /**
+     * Get the comments for the article.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
