@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,9 @@ use App\Http\Controllers\ArticleController;
 */
 
 Route::get('/', [ArticleController::class, 'index'])->name('home');
-Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article');
+Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article');
+
+Route::post('/comment/create', [CommentController::class, 'store'])->name('create.comment');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

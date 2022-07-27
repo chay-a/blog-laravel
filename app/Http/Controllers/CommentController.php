@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
+use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ArticleController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::withCount('comments')->latest('published_at')->paginate(10);
-
-        return view('home', ['articles' => $articles]);
+        //
     }
 
     /**
@@ -37,7 +36,29 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validationRules = [];
+        $validationRules['content'] = 'required|max:2000';
+
+        if (! Auth::check()) {
+            $validationRules['pseudo'] = 'required|max:200';
+            $validationRules['email'] = 'required';
+        }
+
+        $validated = $request->validate($validationRules);
+
+        $comment = new Comment();
+        $comment->article_id = $request->articleId;
+        $comment->content = $request->content;
+        if (Auth::check()) {
+            $comment->user_id = Auth::user()->id;
+        } else {
+            $comment->pseudo = $request->pseudo;
+            $comment->email = $request->email;
+        }
+
+        $comment->save();
+
+        return redirect()->back();
     }
 
     /**
@@ -46,11 +67,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show($id)
     {
-        $article->loadCount('comments');
-
-        return view('article', ['article' => $article]);
+        //
     }
 
     /**
