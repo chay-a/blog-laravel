@@ -15,8 +15,13 @@
     <main>
         @foreach ($articles as $article)
         <a href="{{route('article', ['id' => $article->id])}}">{{ $article->title }}</a>
-        <p>{{Str::limit($article->content, 500) }}</p>
-        <p>{{count($article->comments)}}</p>
+        <p>Nombre de commentaire(s) : {{count($article->comments)}}</p>
+        @php
+            $trimedText = Str::limit($article->content, 500);
+            $shortText = substr($trimedText, 0, strrpos($trimedText, ' ')) . '...';
+        @endphp
+        <p>{{ $shortText }}</p>
+        
         @endforeach
         {{ $articles->links() }}
     </main>
