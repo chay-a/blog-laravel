@@ -28,7 +28,7 @@ class CommentFactory extends Factory
             $comment['user_id'] = User::inRandomOrder()->first();
         } else {
             $comment['pseudo'] = fake()->userName();
-            $email['email'] = fake()->email();
+            $comment['email'] = fake()->email();
         }
 
         return $comment;
