@@ -23,7 +23,6 @@ class CommentFactory extends Factory
             'article_id' => Article::inRandomOrder()->first(),
         ];
 
-
         if (rand(0, 1) < 0.5) {
             $comment['user_id'] = User::inRandomOrder()->first();
         } else {
@@ -33,5 +32,4 @@ class CommentFactory extends Factory
 
         return $comment;
     }
-
 }
