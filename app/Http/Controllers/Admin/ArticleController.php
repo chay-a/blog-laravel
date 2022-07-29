@@ -127,12 +127,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $comments = $article->comments;
-        if ($comments) {
-            foreach ($comments as $comment) {
-                $comment->delete();
-            }
-        }
+        $article->comments()->delete();
         $article->delete();
 
         return redirect(route('dashboard'))->with('success', 'Votre article a bien été supprimé');
