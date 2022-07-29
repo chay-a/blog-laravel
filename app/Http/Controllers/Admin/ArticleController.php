@@ -127,8 +127,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        if ($article->comments) {
-            foreach ($article->comments as $comment) {
+        $comments = $article->comments;
+        if ($comments) {
+            foreach ($comments as $comment) {
                 $comment->delete();
             }
         }
