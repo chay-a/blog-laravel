@@ -14,7 +14,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::withCount('comments')->latest('published_at')->paginate(10);
+        $articles = Article::withCount('comments')->latest('published_at')->paginate();
 
         return view('home', ['articles' => $articles]);
     }

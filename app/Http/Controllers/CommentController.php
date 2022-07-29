@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CommentController extends Controller
 {
@@ -38,27 +39,32 @@ class CommentController extends Controller
     {
         $validationRules = [];
         $validationRules['content'] = 'required|max:2000';
+        $validationRules['articleId'] = 'required|exists:App\Models\Article,id';
 
-        if (! Auth::check()) {
-            $validationRules['pseudo'] = 'required|max:200';
-            $validationRules['email'] = 'required';
-        }
+        $validationRules['pseudo'] = [
+            Rule::excludeIf(Auth::check()),
+            'required', 'max:200',
+        ];
+        $validationRules['email'] = [
+            Rule::excludeIf(Auth::check()),
+            'required', 'email',
+        ];
 
         $validated = $request->validate($validationRules);
 
         $comment = new Comment();
-        $comment->article_id = $request->articleId;
-        $comment->content = $request->content;
+        $comment->article_id = $validated['articleId'];
+        $comment->content = $validated['content'];
         if (Auth::check()) {
             $comment->user_id = Auth::user()->id;
         } else {
-            $comment->pseudo = $request->pseudo;
-            $comment->email = $request->email;
+            $comment->pseudo = $validated['pseudo'];
+            $comment->email = $validated['email'];
         }
 
         $comment->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Votre commentaire a bien été enregistré');
     }
 
     /**

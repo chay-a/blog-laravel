@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Attribute;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
     use HasFactory;
+
+    protected $perPage = 10;
 
     protected $casts = [
         'published_at' => 'datetime:Y-m-d',
@@ -38,5 +38,4 @@ class Article extends Model
     {
         return $this->hasMany(Comment::class);
     }
-
 }
