@@ -109,12 +109,13 @@ class ArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:250',
             'content' => 'required|max:5000',
-            'id' => 'required|exists:App\Models\Article,id'
+            'id' => 'required|exists:App\Models\Article,id',
         ]);
 
         $article->title = $validated['title'];
         $article->content = $validated['content'];
         $article->save();
+
         return redirect(route('articles.show.admin', ['article' => $article]))->with('success', 'Votre article a bien été modifié');
     }
 
@@ -126,13 +127,13 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        
-        if($article->comments) {
-            foreach($article->comments as $comment) {
+        if ($article->comments) {
+            foreach ($article->comments as $comment) {
                 $comment->delete();
             }
         }
         $article->delete();
+
         return redirect(route('dashboard'))->with('success', 'Votre article a bien été supprimé');
     }
 }

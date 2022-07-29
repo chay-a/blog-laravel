@@ -17,13 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// group routes
 
 Route::get('/', [ArticleController::class, 'index'])->name('home');
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.create');
-
 
 Route::prefix('admin')->group(function () {
     Route::get('', [AdminArticleController::class, 'index'])->name('dashboard');
@@ -42,4 +40,4 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
