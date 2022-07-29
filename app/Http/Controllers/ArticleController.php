@@ -48,7 +48,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->loadCount('comments');
+        $article->loadCount('comments')->load('comments');
 
         return view('article', ['article' => $article]);
     }
