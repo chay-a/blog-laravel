@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'name' => fake()->word(),
-        ];
+        $category = [];
+        $category['name'] = fake()->word();
+        if (rand(0, 10) < 5) {
+            $category['category_id'] = Category::inRandomOrder()->first();
+        }
+
+        return $category;
     }
 }

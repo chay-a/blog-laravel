@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +22,8 @@ class ArticleFactory extends Factory
             'title' => fake()->sentence(6),
             'content' => fake()->text(5000),
             'user_id' => User::inRandomOrder()->where('is_admin', 1)->first(),
-            'published_at' => now(),
+            'category_id' => Category::inRandomOrder()->first(),
+            'published_at' => fake()->dateTimeBetween('-1 year'),
         ];
     }
 }
